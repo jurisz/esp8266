@@ -3,6 +3,7 @@
  *
  *  Created on: 24.05.2015
  *
+ * For DeepSleep pull up (connect)  D0 <-> RST
  */
 
 #include <Arduino.h>
