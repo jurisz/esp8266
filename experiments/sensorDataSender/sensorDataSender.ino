@@ -15,6 +15,8 @@ DHT dht(DHTPIN, DHTTYPE);
 
 ESP8266WiFiMulti WiFiMulti;
 
+const GREEN_HOUSE_CODE = "c1";
+
 // Time to deep sleep (in seconds): 15 * 60
 const int DEEP_SLEEP_SECONDS = 60;
 const int SENSOR_WARM_UP_SECONDS = 5;
@@ -31,6 +33,11 @@ SensorData readSensor() {
 	return r;
 }
 
+char* formatFloat(float number, char* buf) {
+     dtostrf(number, 6, 1, buf);
+     return buf;
+}
+
 void connectAndPostData(SensorData data) {
 
 	WiFiMulti.addAP(SSID, WIFI_PASS);
@@ -44,13 +51,43 @@ void connectAndPostData(SensorData data) {
     }
 
     if((WiFiMulti.run() == WL_CONNECTED)) {
-        HTTPClient http;
-  
-        //TODO
-  
+        USE_SERIAL.println("http begin connect");
+        http.begin("http://192.168.20.1:3000/sensor/save/" + GREEN_HOUSE_CODE);
+
+        USE_SERIAL.println("Http posting");
+        // start connection and send HTTP header
+        http.addHeader("Accept", "*/*");
+        http.addHeader("Content-Type", "application/json");
+        
+        float temp = (float) random(500)/10.0;
+        char tempStr[7];
+        char humidStr[7];
+        char jsonBuffer[255];
+        sprintf(jsonBuffer, "[{\"name\": \"temp\", \"value\": %s}, {\"name\": \"humidity\", \"value\": %s}]",
+         formatFloat(data.temp, tempStr), formatFloat(data.humidity, humidStr));
+
+//        USE_SERIAL.print("json payload: ");
+//        USE_SERIAL.print(jsonBuffer);
+//        USE_SERIAL.print("\n");
+        
+        int httpCode = http.POST(jsonBuffer);
+
+        // httpCode will be negative on error
+        if(httpCode > 0) {
+            USE_SERIAL.printf("Post result code: %d\n", httpCode);
+
+            // file found at server
+            if(httpCode == HTTP_CODE_OK) {
+                String payload = http.getString();
+                USE_SERIAL.println(payload);
+            }
+        } else {
+            USE_SERIAL.printf("Http POST failed, error: %s\n", http.errorToString(httpCode).c_str());
+        }
+
         http.end();
     } else {
-        USE_SERIAL.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+        USE_SERIAL.printf("Can't connect to Wifi");
     }
 }
 
