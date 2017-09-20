@@ -1,0 +1,14 @@
+
+
+Press the reset button and keep it pressed.
+Press the GPIO0 button and keep it pressed.
+Release the reset button
+Release the GPIO0 button
+
+https://www.allaboutcircuits.com/projects/breadboard-and-program-an-esp-01-circuit-with-the-arduino-ide/
+
+for Prod still need +3 to CH_PL (4)
+
+Deep sleep wire connection
+
+
