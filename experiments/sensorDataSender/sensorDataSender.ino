@@ -15,7 +15,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 ESP8266WiFiMulti WiFiMulti;
 
-const GREEN_HOUSE_CODE = "c1";
+const char GREEN_HOUSE_CODE[] = "c1";
 
 // Time to deep sleep (in seconds): 15 * 60
 const int DEEP_SLEEP_SECONDS = 60;
@@ -29,7 +29,7 @@ struct SensorData {
 SensorData readSensor() {
 	SensorData r;
 	r.humidity = dht.readHumidity();
-	r.temp = dht.readTemperature()
+	r.temp = dht.readTemperature();
 	return r;
 }
 
@@ -40,7 +40,7 @@ char* formatFloat(float number, char* buf) {
 
 void connectAndPostData(SensorData data) {
 
-	WiFiMulti.addAP(SSID, WIFI_PASS);
+	WiFiMulti.addAP(WIFI_SSID, WIFI_PASS);
 	
 	USE_SERIAL.println("Connecting to WIFI");
     int counter = 0;
@@ -51,8 +51,9 @@ void connectAndPostData(SensorData data) {
     }
 
     if((WiFiMulti.run() == WL_CONNECTED)) {
+        HTTPClient http;
         USE_SERIAL.println("http begin connect");
-        http.begin("http://192.168.20.1:3000/sensor/save/" + GREEN_HOUSE_CODE);
+        http.begin("http://192.168.20.1:3000/sensor/save/c1");
 
         USE_SERIAL.println("Http posting");
         // start connection and send HTTP header
@@ -107,11 +108,15 @@ void setup() {
 
    //TODO switch on sensor power GPIO-2	
    
-   delay(SENSOR_WARM_UP_SECONDS * 1000)
+   delay(SENSOR_WARM_UP_SECONDS * 1000);
    
    SensorData data = readSensor();
    connectAndPostData(data);
 
    USE_SERIAL.println("Measurements done and sent. Going for deep sleep...");
-   ESP.deepSleep(sleepTimeS * 1000000);
+   ESP.deepSleep(DEEP_SLEEP_SECONDS * 1000000);
+}
+
+void loop() {
+    //empty
 }
