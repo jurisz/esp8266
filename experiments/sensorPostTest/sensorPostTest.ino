@@ -31,7 +31,7 @@ void setup() {
 
     USE_SERIAL.println();
 
-    WiFiMulti.addAP(WIFI_SSID, WIFI_PASS);
+    WiFiMulti.addAP(WIFI_PI3_SSID, WIFI_PI3_PASS);
 
     for(uint8_t t = 4; t > 0; t--) {
         USE_SERIAL.printf("[SETUP] WAIT %d...\n", t);

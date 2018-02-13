@@ -15,11 +15,11 @@ DHT dht(DHTPIN, DHTTYPE);
 
 ESP8266WiFiMulti WiFiMulti;
 
-const char GREEN_HOUSE_CODE[] = "c1";
+const char GREEN_HOUSE_CODE[] = "c-test";
 
 // Time to deep sleep (in seconds): 15 * 60
-const int DEEP_SLEEP_SECONDS = 60;
-const int SENSOR_WARM_UP_SECONDS = 5;
+const int DEEP_SLEEP_SECONDS = 2 * 60;
+const int SENSOR_WARM_UP_SECONDS = 2;
 
 struct SensorData {
   float humidity;
@@ -40,7 +40,7 @@ char* formatFloat(float number, char* buf) {
 
 void connectAndPostData(SensorData data) {
 
-	WiFiMulti.addAP(WIFI_SSID, WIFI_PASS);
+	WiFiMulti.addAP(WIFI_PI3_SSID, WIFI_PI3_PASS);
 	
 	USE_SERIAL.println("Connecting to WIFI");
     int counter = 0;

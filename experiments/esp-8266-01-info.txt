@@ -12,3 +12,12 @@ for Prod still need +3 to CH_PL (4)
 Deep sleep wire connection
 
 
+
+Cloud
+thingspeak
+
+RS monitoring with my cable
+Green to TXD
+White RXD 
+Ground black
+Red disconected
