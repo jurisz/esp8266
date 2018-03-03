@@ -17,7 +17,7 @@ Cloud
 thingspeak
 
 RS monitoring with my cable
-Green to TXD
-White RXD 
+Green to RXD
+White TXD 
 Ground black
 Red disconected

@@ -45,7 +45,7 @@ float readTemperature() {
     DS18B20.begin();
     DS18B20.requestTemperatures(); 
     float temp = DS18B20.getTempCByIndex(0);
-    Serial.println("Temperature: " + String(temp));
+    Serial.println("Ds18 temperature: " + String(temp));
     return temp;
 }
 
@@ -108,7 +108,7 @@ void setup() {
     }
   }
  
-  Serial.println("Done. Going for deep sleep...");
+  Serial.println("Done. Going for deep sleep!");
   ESP.deepSleep(DEEP_SLEEP_SECONDS * 1000000);
 }
 
