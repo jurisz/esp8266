@@ -98,6 +98,9 @@ void setup() {
       dataExists = true;
     }
 
+    //dataExists =true;
+    //ThingSpeak.setField(1, 10.0f);
+
     if (dataExists) {
       int  writeSuccess = ThingSpeak.writeFields(channelID, apiKey); 
       if ( writeSuccess ){

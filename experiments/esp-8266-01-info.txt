@@ -21,3 +21,9 @@ Green to RXD
 White TXD 
 Ground black
 Red disconected
+
+
+Board 2 (in box, with dht on board)
+ DHT => 2
+ ONWIRW => 0
+Board 1 => kas uz bacas, tas pats
